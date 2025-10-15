@@ -5,6 +5,19 @@ class CreateSticker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Create Sticker')));
+    return Scaffold(
+      appBar: AppBar(title: Center(child: Text('Create Sticker'))),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text('Create Sticker'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

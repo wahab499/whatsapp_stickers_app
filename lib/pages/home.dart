@@ -6,7 +6,12 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('App Name'))),
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: Center(
+          child: Text('App Name', style: TextStyle(color: Colors.white)),
+        ),
+      ),
       body: Column(
         children: [
           Padding(
@@ -99,8 +104,56 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                CircleCategory(
+                  Image.asset('assets/images/rockfunny.png'),
+                  "Funny",
+                ),
+                CircleCategory(
+                  Image.asset('assets/images/rockfunny.png'),
+                  "Indian",
+                ),
+                CircleCategory(
+                  Image.asset('assets/images/rockfunny.png'),
+                  "Urdu",
+                ),
+                CircleCategory(
+                  Image.asset('assets/images/rockfunny.png'),
+                  "Meems",
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+Widget CircleCategory(Image image, String label) {
+  return Padding(
+    padding: const EdgeInsets.all(4.0),
+    child: Column(
+      children: [
+        Container(
+          width: 80,
+          height: 80,
+          padding: EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [Colors.greenAccent, Colors.teal],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: CircleAvatar(radius: 37, backgroundImage: image.image),
+        ),
+        Text(label, style: TextStyle(fontSize: 16)),
+      ],
+    ),
+  );
 }

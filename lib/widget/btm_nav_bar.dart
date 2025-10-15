@@ -48,7 +48,7 @@ class _BtmNavBarState extends State<BtmNavBar> {
               _buildNavItem('assets/icons/home.png', 'Home', 0),
               _buildNavItem('assets/icons/search.png', 'Search', 1),
               _buildNavItem('assets/icons/add.png', 'Add', 2),
-              _buildNavItem('assets/icons/trending.png', 'Add', 3),
+              _buildNavItem('assets/icons/trending.png', 'Trending', 3),
               _buildNavItem('assets/icons/profile.png', 'Profile', 4),
             ],
           ),
