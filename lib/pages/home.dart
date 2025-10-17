@@ -1,10 +1,38 @@
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool _isDropdownOpen = false;
+  int? _selectedIndex;
+
+  @override
   Widget build(BuildContext context) {
+    final trendingStickers = [
+      {'image': 'assets/images/rockfunny.png', 'title': 'Bismillah'},
+      {'image': 'assets/images/rockfunny.png', 'title': 'SubhanAllah'},
+      {'image': 'assets/images/rockfunny.png', 'title': 'InshaAllah'},
+      {'image': 'assets/images/rockfunny.png', 'title': 'Alhamdulillah'},
+    ];
+
+    final stickerPacks = [
+      {'title': 'Ramadan Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Eid Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Muharram Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Bakra Eid Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Duas Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Greetings Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Lovely Pack', 'image': 'assets/images/rockfunny.png'},
+      {'title': 'Respect Pack', 'image': 'assets/images/rockfunny.png'},
+    ];
+
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
@@ -26,98 +54,332 @@ class Home extends StatelessWidget {
       ),
 
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🌙 Category Tabs
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 🌿 Category Tabs
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: const [
+                      CategoryChip(label: 'Greetings'),
+                      CategoryChip(label: 'Events'),
+                      CategoryChip(label: 'Duas'),
+                      CategoryChip(label: 'Tasbeeh'),
+                      CategoryChip(label: 'Places'),
+                      CategoryChip(label: 'Quran'),
+                      CategoryChip(label: 'Hadith'),
+                    ],
+                  ),
+                ),
+              ),
+
+              // 🌙 Popular Collections
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  'Popular Collections',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
-                  children: const [
-                    CategoryChip(label: 'Greetings'),
-                    CategoryChip(label: 'Events'),
-                    CategoryChip(label: 'Duas'),
-                    CategoryChip(label: 'Tasbeeh'),
-                    CategoryChip(label: 'Places'),
-                    CategoryChip(label: 'Quran'),
-                    CategoryChip(label: 'Hadith'),
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleCategory(
+                      image: Image.asset('assets/images/rockfunny.png'),
+                      label: 'Funny',
+                    ),
+                    CircleCategory(
+                      image: Image.asset('assets/images/rockfunny.png'),
+                      label: 'Urdu',
+                    ),
+                    CircleCategory(
+                      image: Image.asset('assets/images/rockfunny.png'),
+                      label: 'Eid',
+                    ),
+                    CircleCategory(
+                      image: Image.asset('assets/images/rockfunny.png'),
+                      label: 'Ramadan',
+                    ),
                   ],
                 ),
               ),
-            ),
 
-            // 🌸 Section Title
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                'Popular Collections',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              // 🔥 Trending Stickers
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  'Trending Stickers',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-
-            // 🌙 Circular Category Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CircleCategory(
-                    image: Image.asset('assets/images/rockfunny.png'),
-                    label: 'Funny',
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                        trendingStickers.take(10).map((sticker) {
+                          return Container(
+                            width: 130,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 10),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.asset(
+                                    sticker['image']!,
+                                    height: 80,
+                                    width: 80,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  sticker['title']!,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 4),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.add_rounded,
+                                      size: 18,
+                                    ),
+                                    label: const Text(
+                                      "Add",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green.shade600,
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 14,
+                                        vertical: 6,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      elevation: 4,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
                   ),
-                  CircleCategory(
-                    image: Image.asset('assets/images/rockfunny.png'),
-                    label: 'Urdu',
-                  ),
-                  CircleCategory(
-                    image: Image.asset('assets/images/rockfunny.png'),
-                    label: 'Eid',
-                  ),
-                  CircleCategory(
-                    image: Image.asset('assets/images/rockfunny.png'),
-                    label: 'Ramadan',
-                  ),
-                ],
+                ),
               ),
-            ),
 
-            // 🕋 Featured Section
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                'Featured Stickers',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              //📦 Sticker Packs
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  'Sticker Packs',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
 
-            // 🕊️ Sticker Grid
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: GridView.count(
+              // Add this state variable at the top of your widget
+              ListView.builder(
+                itemCount: stickerPacks.length,
                 shrinkWrap: true,
-                crossAxisCount: 2,
                 physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: [
-                  StickerCard('assets/images/rockfunny.png', 'Bismillah'),
-                  StickerCard('assets/images/rockfunny.png', 'SubhanAllah'),
-                  StickerCard('assets/images/rockfunny.png', 'InshaAllah'),
-                  StickerCard('assets/images/rockfunny.png', 'Alhamdulillah'),
-                ],
+                itemBuilder: (context, index) {
+                  final pack = stickerPacks[index];
+                  final isSelected = _selectedIndex == index;
+                  final isDropdownOpen = isSelected && _isDropdownOpen;
+
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade300,
+                          blurRadius: 6,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        // Main content row
+                        Row(
+                          children: [
+                            // Image - Clickable
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (_selectedIndex == index &&
+                                      _isDropdownOpen) {
+                                    _isDropdownOpen = false;
+                                  } else {
+                                    _selectedIndex = index;
+                                    _isDropdownOpen = true;
+                                  }
+                                });
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    // border:
+                                    //     isSelected
+                                    //         ? Border.all(
+                                    //           color: Colors.blue.shade400,
+                                    //           width: 2,
+                                    //         )
+                                    //         : null,
+                                  ),
+                                  child: Image.asset(
+                                    pack['image']!,
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 15),
+
+                            // Title - Clickable and Expanded
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (_selectedIndex == index &&
+                                        _isDropdownOpen) {
+                                      _isDropdownOpen = false;
+                                    } else {
+                                      _selectedIndex = index;
+                                      _isDropdownOpen = true;
+                                    }
+                                  });
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      pack['title']!,
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                        // color:
+                                        //     isSelected
+                                        //         ? Colors.blue.shade600
+                                        //         : Colors.black,
+                                      ),
+                                    ),
+                                    if (isDropdownOpen)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 4),
+                                        child: Icon(
+                                          Icons.arrow_drop_up,
+                                          color: Colors.blue.shade400,
+                                          size: 20,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Add Pack Button
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                // TODO: Add pack to WhatsApp
+                              },
+                              icon: const Icon(Icons.add, size: 18),
+                              label: const Text('Add Pack'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green.shade600,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 6,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Dropdown Section with smooth animation
+                        if (isDropdownOpen)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade50,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.grey.shade200,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Column(children: [
+                                 
+                                ],
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// 🌿 Small Components Below
-
+// 🌿 Category Chip
 class CategoryChip extends StatelessWidget {
   final String label;
   const CategoryChip({super.key, required this.label});
@@ -135,7 +397,7 @@ class CategoryChip extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 15,
           color: Colors.green.shade800,
           fontWeight: FontWeight.w500,
         ),
@@ -144,6 +406,7 @@ class CategoryChip extends StatelessWidget {
   }
 }
 
+// 🌙 Circular Category
 class CircleCategory extends StatelessWidget {
   final Image image;
   final String label;
@@ -155,8 +418,8 @@ class CircleCategory extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 80,
-          height: 80,
+          width: 70,
+          height: 70,
           padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -173,55 +436,14 @@ class CircleCategory extends StatelessWidget {
               ),
             ],
           ),
-          child: CircleAvatar(radius: 37, backgroundImage: image.image),
+          child: CircleAvatar(radius: 34, backgroundImage: image.image),
         ),
         const SizedBox(height: 6),
         Text(
           label,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ],
-    );
-  }
-}
-
-class StickerCard extends StatelessWidget {
-  final String imagePath;
-  final String title;
-
-  const StickerCard(this.imagePath, this.title, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 6,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(imagePath, fit: BoxFit.contain),
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(height: 8),
-        ],
-      ),
     );
   }
 }
