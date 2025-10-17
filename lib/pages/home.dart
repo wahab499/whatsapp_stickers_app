@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_sticker_app/widget/circle_category.dart';
+import 'package:whatsapp_sticker_app/widget/tags_category.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -42,15 +44,6 @@ class _HomeState extends State<Home> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/trending');
-            },
-            icon: const Icon(Icons.trending_up, color: Colors.white),
-            tooltip: 'Trending Stickers',
-          ),
-        ],
       ),
 
       body: SingleChildScrollView(
@@ -59,7 +52,6 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 🌿 Category Tabs
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
@@ -78,7 +70,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
 
-              // 🌙 Popular Collections
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
@@ -111,7 +102,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
 
-              // 🔥 Trending Stickers
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
@@ -202,7 +192,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
 
-              //📦 Sticker Packs
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
@@ -210,8 +199,6 @@ class _HomeState extends State<Home> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-
-              // Add this state variable at the top of your widget
               ListView.builder(
                 itemCount: stickerPacks.length,
                 shrinkWrap: true,
@@ -222,11 +209,8 @@ class _HomeState extends State<Home> {
                   final isDropdownOpen = isSelected && _isDropdownOpen;
 
                   return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -240,10 +224,8 @@ class _HomeState extends State<Home> {
                     ),
                     child: Column(
                       children: [
-                        // Main content row
                         Row(
                           children: [
-                            // Image - Clickable
                             GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -261,13 +243,6 @@ class _HomeState extends State<Home> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    // border:
-                                    //     isSelected
-                                    //         ? Border.all(
-                                    //           color: Colors.blue.shade400,
-                                    //           width: 2,
-                                    //         )
-                                    //         : null,
                                   ),
                                   child: Image.asset(
                                     pack['image']!,
@@ -280,7 +255,6 @@ class _HomeState extends State<Home> {
                             ),
                             const SizedBox(width: 15),
 
-                            // Title - Clickable and Expanded
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
@@ -302,10 +276,6 @@ class _HomeState extends State<Home> {
                                       style: TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w600,
-                                        // color:
-                                        //     isSelected
-                                        //         ? Colors.blue.shade600
-                                        //         : Colors.black,
                                       ),
                                     ),
                                     if (isDropdownOpen)
@@ -322,11 +292,8 @@ class _HomeState extends State<Home> {
                               ),
                             ),
 
-                            // Add Pack Button
                             ElevatedButton.icon(
-                              onPressed: () {
-                                // TODO: Add pack to WhatsApp
-                              },
+                              onPressed: () {},
                               icon: const Icon(Icons.add, size: 18),
                               label: const Text('Add Pack'),
                               style: ElevatedButton.styleFrom(
@@ -344,7 +311,6 @@ class _HomeState extends State<Home> {
                           ],
                         ),
 
-                        // Dropdown Section with smooth animation
                         if (isDropdownOpen)
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
@@ -375,75 +341,6 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// 🌿 Category Chip
-class CategoryChip extends StatelessWidget {
-  final String label;
-  const CategoryChip({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.green.shade50,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.green.shade300),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 15,
-          color: Colors.green.shade800,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-}
-
-// 🌙 Circular Category
-class CircleCategory extends StatelessWidget {
-  final Image image;
-  final String label;
-
-  const CircleCategory({super.key, required this.image, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: const LinearGradient(
-              colors: [Colors.greenAccent, Colors.teal],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade300,
-                blurRadius: 6,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: CircleAvatar(radius: 34, backgroundImage: image.image),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-        ),
-      ],
     );
   }
 }
